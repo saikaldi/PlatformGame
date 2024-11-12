@@ -13,6 +13,8 @@ public class GameWindow {
         // On click close exit the program
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jframe.add(gamePanel);
+        // Bound the window in center of the screen
+        jframe.setLocationRelativeTo(null);
         // Window to be visible
         jframe.setVisible(true);
 
