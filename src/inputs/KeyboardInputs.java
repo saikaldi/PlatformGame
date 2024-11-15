@@ -8,7 +8,7 @@ import static utilz.Constants.Directions.*;
 
 public class KeyboardInputs implements KeyListener {
 
-//    This line defines a variable that will store a reference to the GamePanel.
+    // Stores a reference to the GamePanel object to send updates about direction or movement.
     private GamePanel gamePanel;
 
 
@@ -40,7 +40,7 @@ public class KeyboardInputs implements KeyListener {
 
         }
     }
-
+    // Handles key releases to stop movement when a key is released.
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()){

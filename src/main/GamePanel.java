@@ -17,16 +17,16 @@ public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
     private float xDelta = 100, yDelta = 100;
     private BufferedImage img;
-    private BufferedImage[][] animations;
-    private int aniTick, aniIndex, aniSpeed = 15;
-    private int playerAction = IDLE;
-    private int playerDir = -1;
-    private boolean moving = false;
+    private BufferedImage[][] animations; // 2D array to hold different animations and frames for player actions
+    private int aniTick, aniIndex, aniSpeed = 15; // Animation controls: frame timing (aniTick), index, and speed
+    private int playerAction = IDLE; // Current player action, defaulting to idle
+    private int playerDir = -1; // Current direction of player, initially set to -1 (no direction)
+    private boolean moving = false; // Tracks if the player is moving
 
     public GamePanel() {
-        mouseInputs = new MouseInputs(this);
+        mouseInputs = new MouseInputs(this); // Initialize mouse input handling
         importImg();
-        loadAnimations();
+        loadAnimations(); // Load individual animations from the imported image
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));
 //        This is a method from a JComponent (like JPanel or JFrame) that registers a MouseListener with the component so that the component can handle mouse events.
@@ -35,16 +35,16 @@ public class GamePanel extends JPanel {
 
     }
 
-    private void loadAnimations() {
-        animations = new BufferedImage[9][6];
+    private void loadAnimations() {  // Loads animation frames from sprite sheet into `animations` array
+        animations = new BufferedImage[9][6]; // Initialize 2D array for 9 actions, 6 frames each
 
-        for (int j = 0; j < animations.length; j++)
-            for (int i = 0; i < animations[j].length; i++)
-                animations[j][i] = img.getSubimage(i*64, j*40, 64, 40);
+        for (int j = 0; j < animations.length; j++) // Loop through each action
+            for (int i = 0; i < animations[j].length; i++) // Loop through each frame for action `j`
+                animations[j][i] = img.getSubimage(i*64, j*40, 64, 40); // Extract frame `i` of action `j` from sprite sheet
 
     }
 
-    private void importImg() {
+    private void importImg() { // Get image as InputStream from resources
         InputStream is = getClass().getResourceAsStream("/player.png");
         try {
             img = ImageIO.read(is);
@@ -67,30 +67,30 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void  setDirection(int direction){
-        this.playerDir = direction;
-        moving = true;
+    public void  setDirection(int direction){ // Sets player's direction and flags them as moving
+        this.playerDir = direction; // Assign new direction
+        moving = true; // Flag moving status to true
 
     }
-    public void  setMoving(boolean moving){
-        this.moving = moving;
+    public void  setMoving(boolean moving){  // Sets whether player is moving or not
+        this.moving = moving; // Assign moving status
 
     }
 
-    private void updateAnimationTick() {
+    private void updateAnimationTick() { // Updates animation frame based on timing
 
-        aniTick++;
+        aniTick++; // Increment animation tick counter
 
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-            aniIndex++;
-            if (aniIndex >= GetSpriteAmount(playerAction)) {
-                aniIndex = 0;
+        if (aniTick >= aniSpeed) { // If tick count reaches animation speed threshold
+            aniTick = 0; // Reset tick counter
+            aniIndex++; // Move to the next frame
+            if (aniIndex >= GetSpriteAmount(playerAction)) {  // If end of animation frames is reached
+                aniIndex = 0;  // Reset frame index to loop animation
             }
         }
     }
 
-    private void setAnimation() {
+    private void setAnimation() { // Sets player animation based on movement status
 
         if(moving)
             playerAction = RUNNING;

@@ -2,13 +2,14 @@ package utilz;
 
 public class Constants {
 
+    // Define constants for directions
     public static class Directions{
         public static final int LEFT = 0;
         public static final int UP = 1;
         public static final int RIGHT = 2;
         public static final int DOWN = 3;
     }
-
+    // Define constants and methods for player actions
     public static class PlayerConstants{
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
@@ -20,7 +21,11 @@ public class Constants {
         public static final int ATTACK_JUMP_1 = 7;
         public static final int ATTACK_JUMP_2 = 8;
 
-
+        /**
+         * Returns the number of sprites for a given player action.
+         * @param player_action The action for which sprite count is required.
+         * @return The number of sprites associated with the action.
+         */
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
                 case RUNNING:
