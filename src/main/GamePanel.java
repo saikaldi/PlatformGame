@@ -18,10 +18,11 @@ public class GamePanel extends JPanel {
     private float xDelta = 100, yDelta = 100;
     private BufferedImage img;
     private BufferedImage[][] animations; // 2D array to hold different animations and frames for player actions
-    private int aniTick, aniIndex, aniSpeed = 15; // Animation controls: frame timing (aniTick), index, and speed
+    private int aniTick, aniIndex, aniSpeed = 30; // Animation controls: frame timing (aniTick), index, and speed
     private int playerAction = IDLE; // Current player action, defaulting to idle
     private int playerDir = -1; // Current direction of player, initially set to -1 (no direction)
     private boolean moving = false; // Tracks if the player is moving
+
 
     public GamePanel() {
         mouseInputs = new MouseInputs(this); // Initialize mouse input handling
@@ -116,16 +117,18 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public void updateGame(){
+        setAnimation();
+        updateAnimationTick();
+        updatePos();
+    }
+
     public void paintComponent(Graphics g) {
 //        actually, it is calling JComponent's paintComponent
 //        JComponent is the superclass of JPanel
 //        public class JPanel extends JComponent implements Accessible
         super.paintComponent(g);
 
-        setAnimation();
-        updateAnimationTick();
-
-        updatePos();
         g.drawImage(animations[playerAction][aniIndex], (int)xDelta, (int)yDelta, 128, 80, null);
 
 
