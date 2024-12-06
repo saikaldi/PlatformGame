@@ -2,17 +2,11 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 import javax.swing.*;
-import java.awt.*;
-import static utilz.Constants.PlayerConstants.*;
-import static utilz.Constants.Directions.*;
+import static main.Game.GAME_HEIGHT;
+import static main.Game.GAME_WIDTH;
 
 public class GamePanel extends JPanel {
 //    an instance of a class that implements the MouseListener interface
@@ -30,8 +24,9 @@ public class GamePanel extends JPanel {
     }
 
     private void setPanelSize() {
-        Dimension size = new Dimension(1280, 800);
+        Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(size);
+        System.out.println("Game Panel Size: " + GAME_WIDTH+ ":" + GAME_HEIGHT);
     }
 
     public void updateGame(){

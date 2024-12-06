@@ -1,26 +1,23 @@
 package entities;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import static utilz.Constants.PlayerConstants.*;
+import utilz.LoadSave;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static utilz.Constants.Directions.*;
-import static utilz.Constants.Directions.DOWN;
-import static utilz.Constants.PlayerConstants.*;
+import javax.imageio.ImageIO;
+import java.awt.Graphics;
 
 public class Player extends Entity{
     private BufferedImage[][] animations;
-    private int aniTick, aniIndex, aniSpeed = 25; // Animation controls: frame timing (aniTick), index, and speed
+    private int aniTick, aniIndex, aniSpeed = 15; // Animation controls: frame timing (aniTick), index, and speed
     private int playerAction = IDLE; // Current player action, defaulting to idle
-    private int playerDir = -1; // Current direction of player, initially set to -1 (no direction)
     private boolean moving = false, attacking = false;; // Tracks if the player is moving
     private boolean left, up, right, down;
     private float playerSpeed = 2.0f;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
     }
 
@@ -32,7 +29,7 @@ public class Player extends Entity{
     }
 
     public void render(Graphics g){
-        g.drawImage(animations[playerAction][aniIndex], (int)x, (int)y, 128, 80, null);
+        g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, width, height, null);
     }
 
     private void updateAnimationTick() { // Updates animation frame based on timing
@@ -66,7 +63,6 @@ public class Player extends Entity{
     }
 
     private void updatePos() {
-
         moving = false;
 
         if(left && !right){
@@ -87,24 +83,15 @@ public class Player extends Entity{
 
 
     private void loadAnimations() {  // Loads animation frames from sprite sheet into `animations` array
-        InputStream is = getClass().getResourceAsStream("/player.png");
-        try {
-            BufferedImage img = ImageIO.read(is);
-            animations = new BufferedImage[9][6]; // Initialize 2D array for 9 actions, 6 frames each
 
-            for (int j = 0; j < animations.length; j++) // Loop through each action
-                for (int i = 0; i < animations[j].length; i++) // Loop through each frame for action `j`
-                    animations[j][i] = img.getSubimage(i*64, j*40, 64, 40); // Extract frame `i` of action `j` from sprite sheet
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
+        animations = new BufferedImage[9][6]; // Initialize 2D array for 9 actions, 6 frames each
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                is.close();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
+        for (int j = 0; j < animations.length; j++)
+            for (int i = 0; i < animations[j].length; i++)
+                animations[j][i] = img.getSubimage(i * 64, j * 40, 64, 40);
+
+
     }
 
     public void resetDirBooleans(){
