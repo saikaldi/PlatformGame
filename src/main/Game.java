@@ -1,34 +1,44 @@
 package main;
 
-//The Runnable interface allows the Game class to be executed in a separate thread
-public class Game implements Runnable{
+
+import entities.Player;
+
+import java.awt.*;
+
+public class Game implements Runnable{ //The Runnable interface allows the Game class to be executed in a separate thread
     private GameWindow gameWindow;
     private GamePanel gamePanel;
-//    gameThread: A thread to run the game loop independently of the main application thread.
-    private Thread gameThread;
-//     Frames Per Second (120). Controls how often the screen is redrawn.
-    private final int FPS_SET = 120;
-//    UPS_SET: Updates Per Second (200). Controls how often the game state is updated.
-    private final int UPS_SET = 200;
+    private Thread gameThread; //    gameThread: A thread to run the game loop independently of the main application thread.
+    private final int FPS_SET = 120; //     Frames Per Second (120). Controls how often the screen is redrawn.
+    private final int UPS_SET = 200; //    UPS_SET: Updates Per Second (200). Controls how often the game state is updated.
+
+    private Player player;
 
     public Game(){
-        gamePanel = new GamePanel();
+        initClasses();
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
-//        When you call gamePanel.requestFocus(), you're asking the gamePanel to gain focus so that
-//        It can start receiving input events like keyboard presses or mouse clicks.
-        gamePanel.requestFocus();
+        gamePanel.requestFocus(); // When you call gamePanel.requestFocus(), you're asking the gamePanel to gain focus so that, It can start receiving input events like keyboard presses or mouse clicks.
         startGameLoop();
+
+    }
+
+    private void initClasses() {
+        player = new Player(200, 200);
     }
 
     private void startGameLoop(){
-//        Creates a new thread and associates it with the Game object, which implements Runnable.
-        gameThread = new Thread(this);
+
+        gameThread = new Thread(this); //        Creates a new thread and associates it with the Game object, which implements Runnable.
         gameThread.start();
     }
 
     public void update(){
-//        Calls a method in GamePanel to update the game state, such as moving objects, checking collisions, etc.
-        gamePanel.updateGame();
+        player.update();
+    }
+
+    public void render(Graphics g){
+        player.render(g);
     }
 //The run method must be overridden to define what the thread does
 //    The game loop is responsible for updating the game state and rendering graphics at the specified FPS and UPS rates.
@@ -75,8 +85,13 @@ public class Game implements Runnable{
                 System.out.println("FPS: " + frames + " | UPS: " + updates);
                 frames = 0;
                 updates = 0;
-
             }
         }
+    }
+    void windowFocusLost(){
+        player.resetDirBooleans();
+    }
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -1,24 +1,21 @@
 package inputs;
 
 import main.GamePanel;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import static utilz.Constants.Directions.*;
+import main.GamePanel;
+public class KeyboardInputs implements KeyListener{
 
-public class KeyboardInputs implements KeyListener {
-
-    // Stores a reference to the GamePanel object to send updates about direction or movement.
-    private GamePanel gamePanel;
-
+    private GamePanel gamePanel; // Stores a reference to the GamePanel object to send updates about direction or movement.
 
 //    This is a constructor that accepts a GamePanel as a parameter. When we create a KeyboardInputs object with new KeyboardInputs(this), it takes the GamePanel reference and saves it in gamePanel.
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -26,31 +23,36 @@ public class KeyboardInputs implements KeyListener {
         // getKeyCode() that returns an integer representing the key code of the pressed key
         switch (e.getKeyCode()){
             case KeyEvent.VK_W:
-                gamePanel.setDirection(UP);
+                gamePanel.getGame().getPlayer().setUp(true);
                 break;
             case KeyEvent.VK_A:
-                gamePanel.setDirection(LEFT);
+                gamePanel.getGame().getPlayer().setLeft(true);
                 break;
             case KeyEvent.VK_S:
-                gamePanel.setDirection(DOWN);
+                gamePanel.getGame().getPlayer().setDown(true);
                 break;
             case KeyEvent.VK_D:
-                gamePanel.setDirection(RIGHT);
+                gamePanel.getGame().getPlayer().setRight(true);
                 break;
+        }
 
         }
-    }
-    // Handles key releases to stop movement when a key is released.
+
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_W:
+                gamePanel.getGame().getPlayer().setUp(false);
+                break;
             case KeyEvent.VK_A:
+                gamePanel.getGame().getPlayer().setLeft(false);
+                break;
             case KeyEvent.VK_S:
+                gamePanel.getGame().getPlayer().setDown(false);
+                break;
             case KeyEvent.VK_D:
-                gamePanel.setMoving(false);
-
-
+                gamePanel.getGame().getPlayer().setRight(false);
+                break;
         }
     }
 }
