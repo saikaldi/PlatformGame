@@ -40,4 +40,7 @@ public class LevelManager {
 
     }
 
+    public Level getCurrentOne() {
+        return levelOne;
+    }
 }
